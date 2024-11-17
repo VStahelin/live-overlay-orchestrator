@@ -1,0 +1,27 @@
+{
+  "name": "overlay-app",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cross-env VITE_DEVELOPING=true vite",
+    "build": "vite build",
+    "start": "node server.js",
+    "refresh": "npm run build && npm run start"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.2",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.6.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "vite": "^4.4.5"
+  }
+}
