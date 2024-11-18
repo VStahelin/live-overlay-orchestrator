@@ -10,6 +10,9 @@ Imagine: você está no meio de uma live e quer destacar um patrocinador, mostra
 
 https://github.com/user-attachments/assets/003434cc-565c-4ad5-9758-199b1ad09b69
 
+![image](https://github.com/user-attachments/assets/6e7d4212-44a5-4416-b56a-8f8f36cd845b)
+
+
 ## 🛠️ Configurando a Mágica:
 
 1. **Clone o Repositório:**
