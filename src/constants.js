@@ -6,4 +6,4 @@ export const OVERLAY_TYPES = {
   OVERLAY_3: "overlay3",
 };
 
-export const SERVER_URL = "http://localhost:3001";
+export const SERVER_URL = "http://192.168.2.180:3001";

@@ -1,9 +1,11 @@
 const express = require("express");
-const app = express();
 const http = require("http");
 const path = require("path");
-const { Server } = require("socket.io");
 const fs = require("fs");
+const os = require("os");
+const { Server } = require("socket.io");
+
+const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -59,13 +61,30 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
-// Handling server shutdown (Ctrl+C)
-let serverInstance;
+function getLocalIp() {
+  const interfaces = os.networkInterfaces();
+  for (const iface of Object.values(interfaces)) {
+    for (const config of iface) {
+      if (config.family === "IPv4" && !config.internal) {
+        return config.address; // Return the first non-internal IPv4 address
+      }
+    }
+  }
+  return "127.0.0.1"; // Fallback para localhost
+}
 
-serverInstance = server.listen(3001, () => {
-  console.log("Servidor rodando na porta 3001");
+// Start the server
+let serverInstance;
+const PORT = 3001;
+
+serverInstance = server.listen(PORT, () => {
+  const localIp = getLocalIp();
+  console.log(`The server is running at:`);
+  console.log(`- Local: http://localhost:${PORT}`);
+  console.log(`- Rede:  http://${localIp}:${PORT}`);
 });
 
+// Handling server shutdown (Ctrl+C)
 process.on("SIGINT", () => {
   if (serverInstance) {
     serverInstance.close(() => {
