@@ -1,6 +1,6 @@
 # 🎉 Apresentando o Live Overlay Orchestrator! 🎉
 
-Chega de overlays estáticos e sem graça! Com o Live Overlay Orchestrator (em desenvolvimento com Vite!), suas transmissões ao vivo vão ganhar uma dose extra de dinamismo e interação. Controle tudo em tempo real, adicione widgets, carrosséis de patrocinadores e muito mais! ✨
+Chega de overlays estáticos e sem graça! Com o Live Overlay Orchestrator, suas transmissões ao vivo vão ganhar uma dose extra de dinamismo e interação. Controle tudo em tempo real, adicione widgets, carrosséis de patrocinadores e muito mais! ✨
 
 ## 🚀 O que é isso?
 
@@ -23,7 +23,7 @@ cd live-overlay-orchestrator
 npm install
 ```
 
-3. **Rode o Servidor (com Vite! 🚀):**
+3. **Rode o Servidor:**
 
 ```bash
 npm run build
