@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "tailwindcss/tailwind.css";
-import { OVERLAY_TYPES } from "../constants";
-const socket = io("http://localhost:3001");
+import { OVERLAY_TYPES, SERVER_URL } from "../constants";
+const socket = io(SERVER_URL);
 
 function ControlPanel() {
   const [overlayStates, setOverlayStates] = useState({
@@ -16,6 +16,13 @@ function ControlPanel() {
       tableTitle: "Sponsors Carousel Overlay",
       show: false,
       button1: false,
+    },
+    [OVERLAY_TYPES.SPEAKER_WIDGET]: {
+      show: false,
+      tableTitle: "Speaker Widget",
+      talkTitle: "Talk Title",
+      speakerName: "Speaker Name",
+      speakerPath: "https://placehold.co/150x150",
     },
     [OVERLAY_TYPES.OVERLAY_2]: {
       show: false,
@@ -39,6 +46,25 @@ function ControlPanel() {
       animation4: "rotate-in",
     },
   });
+
+  const [speakerImages, setSpeakersImages] = useState([]);
+
+  useEffect(() => {
+    const path = SERVER_URL + "/speakers";
+    fetch(`${path}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Erro HTTP! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((imageNames) => {
+        setSpeakersImages(imageNames.map((name) => `${path}/${name}`));
+      })
+      .catch((error) =>
+        console.error("Erro ao buscar lista de imagens:", error)
+      );
+  }, []);
 
   const handleToggle = (overlayId, key) => {
     setOverlayStates((prevState) => {
@@ -150,6 +176,51 @@ function ControlPanel() {
           >
             {state.button1 ? "Button 1 ON" : "Button 1 OFF"}
           </button>
+        </div>
+      );
+    } else if (overlayId === OVERLAY_TYPES.SPEAKER_WIDGET) {
+      return (
+        <div className="flex space-x-8">
+          <div className="flex items-center justify-center">
+            {state.speakerPath ? (
+              <img
+                src={state.speakerPath}
+                alt="Speaker"
+                className="w-32 h-32 object-cover rounded-full"
+              />
+            ) : (
+              <div className="w-32 h-32 flex items-center justify-center bg-gray-700 text-gray-400 rounded-full">
+                No Image
+              </div>
+            )}
+          </div>
+          <div className="flex-1 space-y-4">
+            <input
+              type="text"
+              value={state.talkTitle}
+              onChange={(e) => handleTextChange(e, overlayId, "talkTitle")}
+              className="bg-gray-700 text-white rounded-md p-2 w-full focus:outline-none"
+              placeholder="Enter talk title"
+            />
+            <input
+              type="text"
+              value={state.speakerName}
+              onChange={(e) => handleTextChange(e, overlayId, "speakerName")}
+              className="bg-gray-700 text-white rounded-md p-2 w-full focus:outline-none"
+              placeholder="Enter speaker name"
+            />
+            <select
+              value={state.speakerPath}
+              onChange={(e) => handleTextChange(e, overlayId, "speakerPath")}
+              className="bg-gray-700 text-white rounded-md p-2 w-full focus:outline-none"
+            >
+              {speakerImages.map((image, index) => (
+                <option key={index} value={image}>
+                  {image}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       );
     }

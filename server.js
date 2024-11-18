@@ -7,31 +7,38 @@ const fs = require("fs");
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Permite acesso da porta 5173 (Vite)
-    methods: ["GET", "POST"], // Métodos HTTP permitidos
-    // allowedHeaders: ["my-custom-header"], // Cabeçalhos permitidos (opcional)
-    // credentials: true // Se você estiver usando cookies ou autenticação (opcional)
+    origin: "http://localhost:5173", // Allow the frontend to connect from Vite's development server
+    methods: ["GET", "POST"],
   },
 });
-// Sirva os arquivos estáticos da pasta 'dist' (após o build)
+
+// Serving static files from the dist folder
 app.use(express.static(path.resolve(__dirname, "dist")));
 
-app.get("/sponsors", (req, res) => {
-  const sponsorsDir = path.resolve(__dirname, "dist", "sponsors"); // Pasta 'sponsors' dentro de 'dist'
-  console.log("Lendo a pasta de sponsors:", sponsorsDir);
-  fs.readdir(sponsorsDir, (err, files) => {
-    // Lê os arquivos na pasta
+function listImagesFromFolder(folderName, res) {
+  const folderPath = path.resolve(__dirname, "dist", folderName);
+  console.log(`Lendo a pasta de ${folderName}:`, folderPath);
+
+  fs.readdir(folderPath, (err, files) => {
     if (err) {
-      console.error("Erro ao ler a pasta de sponsors:", err);
-      return res.status(500).send("Erro ao buscar a lista de sponsors");
+      console.error(`Erro ao ler a pasta de ${folderName}:`, err);
+      return res.status(500).send(`Erro ao buscar a lista de ${folderName}`);
     }
 
     const imageFiles = files.filter((file) =>
       /\.(jpg|jpeg|png|webp|gif)$/i.test(file)
-    ); // Filtra apenas imagens
+    );
 
-    res.json(imageFiles); // Envia a lista de imagens como JSON
+    res.json(imageFiles);
   });
+}
+
+app.get("/sponsors", (req, res) => {
+  listImagesFromFolder("sponsors", res);
+});
+
+app.get("/speakers", (req, res) => {
+  listImagesFromFolder("speakers", res);
 });
 
 io.on("connection", (socket) => {
@@ -39,7 +46,7 @@ io.on("connection", (socket) => {
 
   socket.on("updateOverlay", (data) => {
     console.log("Atualizando overlay:", data);
-    socket.broadcast.emit("updateOverlay", data); // Envia para todos os outros clientes
+    socket.broadcast.emit("updateOverlay", data); // Send to all clients except sender
   });
 
   socket.on("disconnect", () => {
@@ -47,12 +54,12 @@ io.on("connection", (socket) => {
   });
 });
 
-// Rota para servir o index.html (após o build)
+// Routes to serve the index.html (after build)
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
-// Lidando com o encerramento do servidor (Ctrl+C)
+// Handling server shutdown (Ctrl+C)
 let serverInstance;
 
 serverInstance = server.listen(3001, () => {

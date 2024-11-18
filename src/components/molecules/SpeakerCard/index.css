@@ -1,0 +1,32 @@
+.cardStyle {
+  width: "900px";
+  height: "190px";
+  background-color: "#0086ff";
+  display: "flex";
+  align-items: center;
+  padding: "20px";
+  box-shadow: "0 4px 6px rgba(0, 0, 0, 0.1)";
+  color: "#fff";
+}
+
+.imageStyle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+}
+
+.textStyle {
+  margin-left: 20px;
+}
+
+.titleStyle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.nameStyle {
+  font-size: 20px;
+}

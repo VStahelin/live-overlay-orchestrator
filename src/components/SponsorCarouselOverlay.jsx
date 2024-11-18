@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
-import { OVERLAY_TYPES } from "../constants";
+import { SERVER_URL } from "../constants";
 
-const socket = io("http://localhost:3001");
+const socket = io(SERVER_URL);
 
 function SponsorCarouselOverlay({ overlayId }) {
   const [overlayState, setOverlayState] = useState({
@@ -13,13 +13,13 @@ function SponsorCarouselOverlay({ overlayId }) {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    const path = "http://localhost:3001/sponsors/";
-    fetch(`${path}`) // Busca a lista de imagens
+    const path = SERVER_URL + "/sponsors";
+    fetch(`${path}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Erro HTTP! status: ${response.status}`);
         }
-        return response.json(); // Assume que o servidor retorna um JSON
+        return response.json(); // Assumes server returns JSON object
       })
       .then((imageNames) => {
         setImages(imageNames.map((name) => `${path}/${name}`));
@@ -44,7 +44,7 @@ function SponsorCarouselOverlay({ overlayId }) {
     return Array.from({ length: cloneCount }, () => imageArray).flat();
   };
 
-  const visibleImages = cloneImages(images, 3);
+  const visibleImages = cloneImages(images, 13);
 
   return (
     <div

@@ -4,6 +4,7 @@ import ControlPanel from "./components/ControlPanel";
 import Overlay from "./components/Overlay";
 import { OVERLAY_TYPES } from "./constants";
 import SponsorCarouselOverlay from "./components/SponsorCarouselOverlay";
+import SpeakerWidget from "./components/overlays/SpeakerWidget";
 
 function App() {
   return (
@@ -22,9 +23,10 @@ function App() {
             />
           }
         />
-
-        {/* <Route path="/overlay/" element={<Overlay overlayId="overlay2" />} />  */}
-        {/* <Route path="/overlay/" element={<Overlay overlayId="overlay3" />} /> */}
+        <Route
+          path="/overlay/speaker-widget"
+          element={<SpeakerWidget overlayId={OVERLAY_TYPES.SPEAKER_WIDGET} />}
+        />
       </Routes>
     </Router>
   );
