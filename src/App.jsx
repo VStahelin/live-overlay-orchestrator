@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ControlPanel from "./components/ControlPanel";
-import Overlay from "./components/Overlay";
+import ControlPanel from "./components/overlays/ControlPanel";
+import Overlay from "./components/overlays/Overlay";
 import { OVERLAY_TYPES } from "./constants";
-import SponsorCarouselOverlay from "./components/SponsorCarouselOverlay";
+import SponsorCarouselOverlay from "./components/overlays/SponsorCarouselOverlay";
 import SpeakerWidget from "./components/overlays/SpeakerWidget";
 
 function App() {

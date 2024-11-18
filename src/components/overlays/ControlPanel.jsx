@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "tailwindcss/tailwind.css";
-import { OVERLAY_TYPES, SERVER_URL } from "../constants";
+import { OVERLAY_TYPES, SERVER_URL } from "../../constants";
 const socket = io(SERVER_URL);
 
 function ControlPanel() {
@@ -229,28 +229,29 @@ function ControlPanel() {
 
   return (
     <div className="bg-gray-900 text-white min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-8">Control Panel</h1>
-
-      {Object.entries(overlayStates).map(([overlayId, state]) => (
-        <div
-          key={overlayId}
-          className="bg-gray-800 rounded-lg p-6 mb-6 shadow-lg"
-        >
-          <h2 className="text-2xl font-semibold mb-4">{state.tableTitle}</h2>
-          <div className="flex items-center space-x-4 mb-6">
-            <label className="text-lg">Camada inteira:</label>
-            <button
-              className={`py-2 px-4 rounded-md ${
-                state.show ? "bg-green-500" : "bg-red-500"
-              } text-white`}
-              onClick={() => handleToggle(overlayId, "show")}
-            >
-              {state.show ? "ON" : "OFF"}
-            </button>
+      <h1 className="text-3xl font-bold mb-6">Control Panel</h1>
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+        {Object.entries(overlayStates).map(([overlayId, state]) => (
+          <div
+            key={overlayId}
+            className="bg-gray-800 rounded-lg p-6 mb-6 shadow-lg flex flex-col"
+          >
+            <h2 className="text-2xl font-semibold mb-4">{state.tableTitle}</h2>
+            <div className="flex items-center space-x-4 mb-6">
+              <label className="text-lg">Camada inteira:</label>
+              <button
+                className={`py-2 px-4 rounded-md ${
+                  state.show ? "bg-green-500" : "bg-red-500"
+                } text-white`}
+                onClick={() => handleToggle(overlayId, "show")}
+              >
+                {state.show ? "ON" : "OFF"}
+              </button>
+            </div>
+            {renderOverlayControls(overlayId, state)}
           </div>
-          {renderOverlayControls(overlayId, state)}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
