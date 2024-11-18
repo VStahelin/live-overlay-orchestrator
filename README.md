@@ -8,6 +8,8 @@ Este projeto, construído com a velocidade do Vite, React e a magia do Socket.IO
 
 Imagine: você está no meio de uma live e quer destacar um patrocinador, mostrar informações sobre o palestrante atual ou adicionar um call to action. Com o Live Overlay Orchestrator, você controla tudo com cliques no painel e *puf*! Atualizado! 💫
 
+https://github.com/user-attachments/assets/003434cc-565c-4ad5-9758-199b1ad09b69
+
 ## 🛠️ Configurando a Mágica:
 
 1. **Clone o Repositório:**
