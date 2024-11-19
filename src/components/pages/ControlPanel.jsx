@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import "tailwindcss/tailwind.css";
 import { OVERLAY_TYPES, SERVER_URL } from "../../constants";
 const socket = io(SERVER_URL);
+import { getSpeakersImages } from "../../services/api";
 
 function ControlPanel() {
   const [overlayStates, setOverlayStates] = useState({
@@ -51,22 +52,28 @@ function ControlPanel() {
   });
 
   const [speakerImages, setSpeakersImages] = useState([]);
+  const [speakerName, setSpeakerName] = useState("Speaker Name");
+  const getSpeakersNames = (image) => {
+    const fileName = image
+      .split("/")
+      .pop()
+      .replace(/\.\w+$/, "");
+
+    const name = fileName
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    return name;
+  };
+
+  const fetchImages = async () => {
+    const fetchedImages = await getSpeakersImages();
+    setSpeakersImages(fetchedImages);
+  };
 
   useEffect(() => {
-    const path = SERVER_URL + "/speakers";
-    fetch(`${path}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Erro HTTP! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((imageNames) => {
-        setSpeakersImages(imageNames.map((name) => `${path}/${name}`));
-      })
-      .catch((error) =>
-        console.error("Erro ao buscar lista de imagens:", error)
-      );
+    fetchImages();
   }, []);
 
   const handleToggle = (overlayId, key) => {
@@ -86,6 +93,9 @@ function ControlPanel() {
   };
 
   const handleTextChange = (event, overlayId, key) => {
+    if (key === "speakerPath") {
+      setSpeakerName(getSpeakersNames(event.target.value));
+    }
     setOverlayStates((prevState) => {
       const newState = { ...prevState };
       newState[overlayId][key] = event.target.value;
@@ -206,8 +216,8 @@ function ControlPanel() {
               placeholder="Enter talk title"
             />
             <input
-              type="text"
-              value={state.speakerName}
+              type="hidden"
+              value={speakerName}
               onChange={(e) => handleTextChange(e, overlayId, "speakerName")}
               className="bg-gray-700 text-white rounded-md p-2 w-full focus:outline-none"
               placeholder="Enter speaker name"
@@ -218,7 +228,11 @@ function ControlPanel() {
               className="bg-gray-700 text-white rounded-md p-2 w-full focus:outline-none"
             >
               {speakerImages.map((image, index) => (
-                <option key={index} value={image}>
+                <option
+                  key={index}
+                  value={image}
+                  label={getSpeakersNames(image)}
+                >
                   {image}
                 </option>
               ))}

@@ -29,3 +29,19 @@ export const getSponsorsImages = async () => {
     return [];
   }
 };
+
+export const getSpeakersImages = async () => {
+  const path = `${SERVER_URL}/speakers`;
+
+  try {
+    const response = await fetch(`${path}`);
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! status: ${response.status}`);
+    }
+    const imageNames = await response.json();
+    return imageNames.map((name) => `${path}/${name}`);
+  } catch (error) {
+    console.error("Erro ao buscar lista de imagens:", error);
+    return [];
+  }
+};
