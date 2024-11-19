@@ -7,13 +7,6 @@ import { getSpeakersImages } from "../../services/api";
 
 function ControlPanel() {
   const [overlayStates, setOverlayStates] = useState({
-    [OVERLAY_TYPES.SPEAKER_OVERLAY]: {
-      tableTitle: "Teste funcional overlay",
-      path: "/overlay/speaker",
-      show: false,
-      text: "Teste funcional overlay",
-      button1: false,
-    },
     [OVERLAY_TYPES.SPONSORS_CAROUSEL_OVERLAY]: {
       tableTitle: "Sponsors Carousel Overlay",
       path: "/overlay/sponsors-carousel",
@@ -28,6 +21,13 @@ function ControlPanel() {
       speakerName: "Speaker Name",
       speakerPath: "https://placehold.co/150x150",
     },
+    // [OVERLAY_TYPES.SPEAKER_OVERLAY]: {
+    //   tableTitle: "Teste funcional overlay",
+    //   path: "/overlay/speaker",
+    //   show: false,
+    //   text: "Teste funcional overlay",
+    //   button1: false,
+    // },
     // [OVERLAY_TYPES.OVERLAY_2]: {
     //   show: false,
     //   tableTitle: "Controle Avançado de Funções",
@@ -93,12 +93,19 @@ function ControlPanel() {
   };
 
   const handleTextChange = (event, overlayId, key) => {
-    if (key === "speakerPath") {
-      setSpeakerName(getSpeakersNames(event.target.value));
+    if (key === "speakerName") {
+      return;
     }
     setOverlayStates((prevState) => {
       const newState = { ...prevState };
       newState[overlayId][key] = event.target.value;
+      if (key === "speakerPath") {
+        setSpeakerName(getSpeakersNames(event.target.value));
+        newState[overlayId] = {
+          ...newState[overlayId],
+          ["speakerName"]: getSpeakersNames(event.target.value),
+        };
+      }
       socket.emit("updateOverlay", { overlayId, state: newState[overlayId] });
       return newState;
     });
@@ -215,13 +222,13 @@ function ControlPanel() {
               className="bg-gray-700 text-white rounded-md p-2 w-full focus:outline-none"
               placeholder="Enter talk title"
             />
-            <input
+            {/* <input
               type="hidden"
               value={speakerName}
               onChange={(e) => handleTextChange(e, overlayId, "speakerName")}
               className="bg-gray-700 text-white rounded-md p-2 w-full focus:outline-none"
               placeholder="Enter speaker name"
-            />
+            /> */}
             <select
               value={state.speakerPath}
               onChange={(e) => handleTextChange(e, overlayId, "speakerPath")}

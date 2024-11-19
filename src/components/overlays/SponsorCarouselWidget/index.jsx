@@ -66,14 +66,16 @@ function SponsorCarouselWidget({ overlayId }) {
         </button>
       )}
       <div
-        className="overlay-container"
+        className={`overlay-container mt-10 transition-opacity duration-[1000ms] ${
+          showWiget ? "opacity-100" : "opacity-0"
+        }`}
         style={{
           pointerEvents: showWiget ? "auto" : "none",
         }}
       >
-        {showWiget && (
-          <div className="overlay-center">
-            <div className="carousel-wrapper">
+        <div className="overlay-center px-8">
+          <div className="carosuel-card">
+            <div className="carousel-wrapper mt-10">
               <div
                 className="carousel-items"
                 style={{
@@ -91,7 +93,7 @@ function SponsorCarouselWidget({ overlayId }) {
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </>
   );
