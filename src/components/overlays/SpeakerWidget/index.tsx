@@ -35,7 +35,7 @@ function SpeakerWidget({ overlayId }) {
 
   return (
     <div
-      className={`transition-opacity duration-[4000ms] ${
+      className={`transition-opacity duration-[500ms] ${
         overlayState.show ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -43,6 +43,7 @@ function SpeakerWidget({ overlayId }) {
         imageSrc={overlayState.speakerPath}
         title={overlayState.talkTitle}
         speakerName={overlayState.speakerName}
+        runAnimation={overlayState.show}
       />
     </div>
   );

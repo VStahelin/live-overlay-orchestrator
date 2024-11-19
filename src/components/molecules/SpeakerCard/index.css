@@ -1,12 +1,18 @@
+.text-shadow-pop-br {
+  -webkit-animation: text-shadow-pop-br 0.6s 0.5s both;
+  animation: text-shadow-pop-br 0.6s 0.5s both;
+}
+
 .cardStyle {
-  width: "900px";
-  height: "190px";
-  background-color: "#0086ff";
-  display: "flex";
+  width: 900px;
+  height: 190px;
+  background-color: var(--color-primary);
+  display: flex;
   align-items: center;
-  padding: "20px";
-  box-shadow: "0 4px 6px rgba(0, 0, 0, 0.1)";
-  color: "#fff";
+  padding: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 1);
+  color: var(--color-accent);
+  border-top-right-radius: 50px;
 }
 
 .imageStyle {
@@ -14,7 +20,8 @@
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #fff;
+  border: 4px solid var(--color-accent);
+  box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .textStyle {
@@ -29,4 +36,36 @@
 
 .nameStyle {
   font-size: 20px;
+}
+
+@-webkit-keyframes text-shadow-pop-br {
+  0% {
+    text-shadow: 0 0 var(--color-secondary), 0 0 var(--color-secondary),
+      0 0 var(--color-secondary), 0 0 var(--color-secondary),
+      0 0 var(--color-secondary), 0 0 var(--color-secondary);
+    -webkit-transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    text-shadow: 1px 1px var(--color-secondary), 2px 2px var(--color-secondary),
+      3px 3px var(--color-secondary), 4px 4px var(--color-secondary);
+    -webkit-transform: translateX(-4px) translateY(-4px);
+    transform: translateX(-4px) translateY(-4px);
+  }
+}
+
+@keyframes text-shadow-pop-br {
+  0% {
+    text-shadow: 0 0 var(--color-secondary), 0 0 var(--color-secondary),
+      0 0 var(--color-secondary), 0 0 var(--color-secondary),
+      0 0 var(--color-secondary), 0 0 var(--color-secondary);
+    -webkit-transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    text-shadow: 1px 1px var(--color-secondary), 2px 2px var(--color-secondary),
+      3px 3px var(--color-secondary), 4px 4px var(--color-secondary);
+    -webkit-transform: translateX(-4px) translateY(-4px);
+    transform: translateX(-4px) translateY(-4px);
+  }
 }

@@ -7,44 +7,47 @@ const socket = io(SERVER_URL);
 function ControlPanel() {
   const [overlayStates, setOverlayStates] = useState({
     [OVERLAY_TYPES.SPEAKER_OVERLAY]: {
-      show: false,
       tableTitle: "Teste funcional overlay",
+      path: "/overlay/speaker",
+      show: false,
       text: "Teste funcional overlay",
       button1: false,
     },
     [OVERLAY_TYPES.SPONSORS_CAROUSEL_OVERLAY]: {
       tableTitle: "Sponsors Carousel Overlay",
+      path: "/overlay/sponsors-carousel",
       show: false,
       button1: false,
     },
     [OVERLAY_TYPES.SPEAKER_WIDGET]: {
-      show: false,
       tableTitle: "Speaker Widget",
+      path: "/overlay/speaker-widget",
+      show: false,
       talkTitle: "Talk Title",
       speakerName: "Speaker Name",
       speakerPath: "https://placehold.co/150x150",
     },
-    [OVERLAY_TYPES.OVERLAY_2]: {
-      show: false,
-      tableTitle: "Controle Avançado de Funções",
-      text: "Controle Avançado de Funções",
-      button1: false,
-      button2: false,
-      button3: false,
-      button4: false,
-    },
-    [OVERLAY_TYPES.OVERLAY_3]: {
-      show: false,
-      tableTitle: "Configuração de Animações",
-      text1: "Texto Inicial 1",
-      animation1: "fade-in",
-      text2: "Texto Inicial 2",
-      animation2: "slide-up",
-      text3: "Texto Inicial 3",
-      animation3: "zoom-in",
-      text4: "Texto Inicial 4",
-      animation4: "rotate-in",
-    },
+    // [OVERLAY_TYPES.OVERLAY_2]: {
+    //   show: false,
+    //   tableTitle: "Controle Avançado de Funções",
+    //   text: "Controle Avançado de Funções",
+    //   button1: false,
+    //   button2: false,
+    //   button3: false,
+    //   button4: false,
+    // },
+    // [OVERLAY_TYPES.OVERLAY_3]: {
+    //   show: false,
+    //   tableTitle: "Configuração de Animações",
+    //   text1: "Texto Inicial 1",
+    //   animation1: "fade-in",
+    //   text2: "Texto Inicial 2",
+    //   animation2: "slide-up",
+    //   text3: "Texto Inicial 3",
+    //   animation3: "zoom-in",
+    //   text4: "Texto Inicial 4",
+    //   animation4: "rotate-in",
+    // },
   });
 
   const [speakerImages, setSpeakersImages] = useState([]);
@@ -168,14 +171,14 @@ function ControlPanel() {
     } else if (overlayId === OVERLAY_TYPES.SPONSORS_CAROUSEL_OVERLAY) {
       return (
         <div className="space-y-4">
-          <button
+          {/* <button
             onClick={() => handleToggle(overlayId, "button1")}
             className={`py-2 px-4 rounded-md ${
               state.button1 ? "bg-green-500" : "bg-red-500"
             } text-white`}
           >
             {state.button1 ? "Button 1 ON" : "Button 1 OFF"}
-          </button>
+          </button> */}
         </div>
       );
     } else if (overlayId === OVERLAY_TYPES.SPEAKER_WIDGET) {
@@ -236,7 +239,19 @@ function ControlPanel() {
             key={overlayId}
             className="bg-gray-800 rounded-lg p-6 mb-6 shadow-lg flex flex-col"
           >
-            <h2 className="text-2xl font-semibold mb-4">{state.tableTitle}</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold">{state.tableTitle}</h2>
+              {state.path && (
+                <button
+                  onClick={() => window.open(state.path, "_blank")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-2 px-4 rounded-md bg-blue-500 text-white"
+                >
+                  Open Overlay/Widget
+                </button>
+              )}
+            </div>
             <div className="flex items-center space-x-4 mb-6">
               <label className="text-lg">Camada inteira:</label>
               <button

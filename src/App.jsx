@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ControlPanel from "./components/overlays/ControlPanel";
+import ControlPanel from "./components/pages/ControlPanel";
 import Overlay from "./components/overlays/Overlay";
 import { OVERLAY_TYPES } from "./constants";
 import SponsorCarouselOverlay from "./components/overlays/SponsorCarouselOverlay";

@@ -86,10 +86,21 @@ serverInstance = server.listen(PORT, () => {
 
 // Handling server shutdown (Ctrl+C)
 process.on("SIGINT", () => {
+  console.log("Recebido SIGINT, encerrando...");
+
+  io.close(() => {
+    console.log("Socket.IO encerrado");
+  });
+
   if (serverInstance) {
-    serverInstance.close(() => {
-      console.log("Servidor encerrado");
-      process.exit(0);
+    serverInstance.close((err) => {
+      if (err) {
+        console.error("Erro ao encerrar o servidor:", err);
+        process.exit(1);
+      } else {
+        console.log("Servidor encerrado com sucesso");
+        process.exit(0);
+      }
     });
   } else {
     console.log("Servidor não iniciado");
