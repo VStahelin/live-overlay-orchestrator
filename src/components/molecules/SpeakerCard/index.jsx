@@ -1,21 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import "./index.css";
 
-const SpeakerCard = ({ imageSrc, title, speakerName, runAnimation }) => {
-  const [titleClass, setTitleClass] = React.useState("titleStyle");
-  const [nameClass, setNameClass] = React.useState("nameStyle");
+const SpeakerCard = ({ imageSrc, title, speakerName, animateText }) => {
+  const animated = useMemo(() => animateText === true, [animateText]);
+
+  const titleClass = useMemo(() => {
+    return animated ? "titleStyle text-shadow-pop-br" : "titleStyle";
+  }, [animated]);
+
+  const nameClass = useMemo(() => {
+    return animated ? "nameStyle text-shadow-pop-br" : "nameStyle";
+  }, [animated]);
 
   useEffect(() => {
-    if (runAnimation) {
-      setTitleClass("titleStyle text-shadow-pop-br");
-      setNameClass("nameStyle text-shadow-pop-br");
-    } else {
+    if (!animated) {
       setTimeout(() => {
-        setTitleClass("titleStyle");
-        setNameClass("nameStyle");
+        titleClass("titleStyle");
+        nameClass("nameStyle");
       }, 1000);
+    } else {
     }
-  }, [runAnimation]);
+  }, [animated]);
 
   return (
     <div className="cardStyle">

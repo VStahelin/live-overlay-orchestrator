@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ControlPanel from "./components/pages/ControlPanel";
 import Overlay from "./components/overlays/Overlay";
 import { OVERLAY_TYPES } from "./constants";
-import SponsorCarouselOverlay from "./components/overlays/SponsorCarouselOverlay";
 import SpeakerWidget from "./components/overlays/SpeakerWidget";
+import SponsorCarouselWidget from "./components/overlays/SponsorCarouselWidget";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route
           path="/overlay/sponsors-carousel"
           element={
-            <SponsorCarouselOverlay
+            <SponsorCarouselWidget
               overlayId={OVERLAY_TYPES.SPONSORS_CAROUSEL_OVERLAY}
             />
           }

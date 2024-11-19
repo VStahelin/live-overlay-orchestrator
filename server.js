@@ -5,7 +5,10 @@ const fs = require("fs");
 const os = require("os");
 const { Server } = require("socket.io");
 
+const cors = require("cors");
 const app = express();
+app.use(cors({ origin: "http://localhost:5173" }));
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -43,11 +46,21 @@ app.get("/speakers", (req, res) => {
   listImagesFromFolder("speakers", res);
 });
 
+app.get("/status/:overlayId", (req, res) => {
+  const overlayId = req.params.overlayId;
+  const data = data_cache[overlayId] || { overlayId, state: { show: false } };
+  console.log(`Ultimo estado do overlay ${overlayId}:`, data);
+  res.json(data);
+});
+
+let data_cache = {};
+
 io.on("connection", (socket) => {
   console.log("Cliente conectado");
 
   socket.on("updateOverlay", (data) => {
     console.log("Atualizando overlay:", data);
+    data_cache[data.overlayId] = data;
     socket.broadcast.emit("updateOverlay", data); // Send to all clients except sender
   });
 
